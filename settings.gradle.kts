@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "uno-score"
 include(":app")
+include(":core")

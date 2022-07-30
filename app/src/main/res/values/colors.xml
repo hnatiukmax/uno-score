@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="uno_red">#D72600</color>
+    <color name="uno_blue">#0956BF</color>
+    <color name="uno_green">#379711</color>
+    <color name="uno_yellow">#ECD407</color>
+
 </resources>
