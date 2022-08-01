@@ -4,9 +4,8 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.hnatiuk.core.presentation.base.Inflate
 import dev.hnatiuk.core.presentation.base.view.BaseFragment
+import dev.hnatiuk.core.presentation.binding.bind
 import dev.hnatiuk.uno_score.databinding.FragmentStartBinding
-import dev.hnatiuk.uno_score.presentation.navigation.Screens
-import dev.hnatiuk.uno_score.presentation.pages.host.HostActivity
 
 @AndroidEntryPoint
 class StartFragment : BaseFragment<FragmentStartBinding, StartViewModel, StartEvent>() {
@@ -17,10 +16,11 @@ class StartFragment : BaseFragment<FragmentStartBinding, StartViewModel, StartEv
 
     override fun FragmentStartBinding.initUI() {
         start.setOnClickListener {
-            (activity as HostActivity)
-                .cicerone
-                .router
-                .navigateTo(Screens.score())
+            viewModel.onStartClick()
         }
+    }
+
+    override fun FragmentStartBinding.bind() = with(viewModel) {
+        finalScore.bind(viewLifecycleOwner, finalScoreData, ::onFinalScoreChanged)
     }
 }

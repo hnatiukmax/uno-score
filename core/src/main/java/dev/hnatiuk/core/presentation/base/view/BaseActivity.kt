@@ -34,6 +34,10 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel<E>, E : Event> 
         //no op
     }
 
+    override fun VB.bind() {
+        //no op
+    }
+
     override fun VM.observeViewModel() {
         //no op
     }

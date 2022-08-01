@@ -47,4 +47,5 @@ dependencies {
     implementation("appCompat".asDependency)
     implementation("coreKtx".asDependency)
     implementation("material".asDependency)
+    implementation("cicerone".asDependency)
 }

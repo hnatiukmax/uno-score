@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_entry.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_host.xml" value="0.2791666666666667" />
+        <entry key="app/src/main/res/layout/dialog_edit_score.xml" value="0.5776041666666667" />
         <entry key="app/src/main/res/layout/fragment_entry.xml" value="0.48541666666666666" />
         <entry key="app/src/main/res/layout/fragment_score.xml" value="0.484375" />
         <entry key="app/src/main/res/layout/fragment_start.xml" value="0.1" />

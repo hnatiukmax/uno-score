@@ -3,14 +3,14 @@ package dev.hnatiuk.core.presentation.base.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dev.hnatiuk.core.presentation.base.Inflate
 import dev.hnatiuk.core.presentation.base.viewmodel.BaseViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.Event
-import dev.hnatiuk.core.presentation.base.Inflate
 
-abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<E>, E : Event> : Fragment(),
-    View<VB, VM, E> {
+abstract class BaseBottomDialog<VB : ViewBinding, VM : BaseViewModel<E>, E : Event> :
+    BottomSheetDialogFragment(), View<VB, VM, E> {
 
     protected abstract val viewModel: VM
     protected abstract val inflate: Inflate<VB>

@@ -1,5 +1,5 @@
 enum class Lib(val version: String, val lib: String) {
-    AppCompat(version = "1.8.0", lib = "androidx.core:core-ktx"),
+    AppCompat(version = "1.4.2", lib = "androidx.appcompat:appcompat"),
     Material(version = "1.6.1", lib = "com.google.android.material:material"),
     //Ktx
     FragmentKtx(version = "1.5.0", lib = "androidx.fragment:fragment-ktx"),
