@@ -48,4 +48,5 @@ dependencies {
     implementation("coreKtx".asDependency)
     implementation("material".asDependency)
     implementation("cicerone".asDependency)
+    implementation("adapterDelegates".asDependency)
 }

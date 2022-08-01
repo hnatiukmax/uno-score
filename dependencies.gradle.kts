@@ -1,6 +1,7 @@
 enum class Lib(val version: String, val lib: String) {
     AppCompat(version = "1.4.2", lib = "androidx.appcompat:appcompat"),
     Material(version = "1.6.1", lib = "com.google.android.material:material"),
+    AdapterDelegates(version = "4.3.0", lib = "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer"),
     //Ktx
     FragmentKtx(version = "1.5.0", lib = "androidx.fragment:fragment-ktx"),
     CoreKtx(version = "1.8.0", lib = "androidx.core:core-ktx"),
