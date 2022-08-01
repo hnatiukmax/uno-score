@@ -55,9 +55,9 @@ dependencies {
     implementation("coreKtx".asDependency)
     implementation("fragmentKtx".asDependency)
     implementation("material".asDependency)
-
     implementation("cicerone".asDependency)
-
+    implementation("adapterDelegatesLayoutContainer".asDependency)
+    implementation("adapterDelegatesViewBinding".asDependency)
     implementation("hiltAndroid".asDependency)
     kapt("hiltCompiler".asDependency)
 }

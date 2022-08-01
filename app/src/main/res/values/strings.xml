@@ -1,3 +1,8 @@
 <resources>
+
     <string name="app_name">uno-score</string>
+
+    <!-- Start -->
+    <string name="start_final_score_hint">Score</string>
+
 </resources>

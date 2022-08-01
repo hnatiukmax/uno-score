@@ -48,5 +48,6 @@ dependencies {
     implementation("coreKtx".asDependency)
     implementation("material".asDependency)
     implementation("cicerone".asDependency)
-    implementation("adapterDelegates".asDependency)
+    implementation("adapterDelegatesLayoutContainer".asDependency)
+    implementation("adapterDelegatesViewBinding".asDependency)
 }

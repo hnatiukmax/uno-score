@@ -3,4 +3,13 @@
 
     <dimen name="buttonPrimaryHeight">56dp</dimen>
 
+    <!-- Text -->
+    <dimen name="text_size_title">22sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_medium">15sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+
+    <dimen name="edit_text_outlined_height">56dp</dimen>
+    <dimen name="edit_text_filled_height">48dp</dimen>
+
 </resources>

@@ -29,12 +29,14 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel<E>, E : Event> 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.initUI()
+        binding.bind()
+        viewModel.onViewLoaded()
         handleViewModel()
     }
 
-    private fun handleViewModel() {
-        viewModel.observeViewModel()
-        viewModel.event.observe(viewLifecycleOwner, ::handleEvent)
+    private fun handleViewModel() = with(viewModel) {
+        observeViewModel()
+        event.observe(viewLifecycleOwner, ::handleEvent)
     }
 
     override fun VB.initUI() {

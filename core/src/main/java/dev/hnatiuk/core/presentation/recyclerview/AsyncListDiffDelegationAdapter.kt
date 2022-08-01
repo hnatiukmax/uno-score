@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 
-class AsyncListDiffDelegationAdapter<T>(
+class AsyncListDiffDelegationAdapter<T : Any>(
     vararg delegate: DiffListItemAdapterDelegate<T>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

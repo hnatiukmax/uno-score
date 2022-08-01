@@ -8,4 +8,8 @@ abstract class BaseViewModel<E : Event> : ViewModel() {
 
     private var _event = SingleLiveEvent<E>()
     val event: LiveData<E> = _event
+
+    open fun onViewLoaded() {
+        //no op
+    }
 }

@@ -12,10 +12,10 @@ typealias OnValueChanged<T> = (T) -> Unit
 fun EditText.bind(
     lifecycleOwner: LifecycleOwner,
     value: MutableLiveData<String>,
-    onValueChanged: OnValueChanged<String>
+    onValueChanged: OnValueChanged<String>? = null
 ) {
     val watcher = doOnTextChanged { text, _, _, _ ->
-        onValueChanged.invoke(text.toString())
+        onValueChanged?.invoke(text.toString())
     }
 
     value.observe(lifecycleOwner) {

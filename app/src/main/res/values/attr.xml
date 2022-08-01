@@ -3,5 +3,6 @@
 
     <attr name="buttonPrimary" format="reference" />
     <attr name="buttonChip" format="reference" />
+    <attr name="inputFilled" format="reference" />
 
 </resources>
