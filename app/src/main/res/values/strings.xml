@@ -4,5 +4,32 @@
 
     <!-- Start -->
     <string name="start_final_score_hint">Score</string>
+    <string name="start_custom">Custom</string>
+
+    <!-- Score -->
+    <string name="score_calculate_for_round">Calculate for %s round</string>
+    <string name="score_final_score_title">Final score:</string>
+    <string name="score_round_title">Round:</string>
+    <string name="score_add_player">Add player</string>
+    <string name="score_name_hint">Name</string>
+    <string name="score_score_hint">Score</string>
+    <string name="score_players_empty_warning">Add players firstly</string>
+    <string name="score_reset">Reset</string>
+    <string name="score_finish">Finish</string>
+    <string name="score_loser_title">Loser:</string>
+    <string name="score_players_will_be_here">Players will be here</string>
+
+    <!-- Edit Final Score -->
+    <string name="edit_final_score_apply">Apply</string>
+    <string name="edit_final_score_change_score">Change Final Score</string>
+
+    <!-- Round Result -->
+    <string name="round_result_apply">Apply</string>
+    <string name="round_result_all_players_warning">Set result for all players</string>
+    <string name="round_result_confirm_button">%sst Round Results</string>
+    <string name="round_result_score">Score</string>
+
+    <!-- Item Player -->
+    <string name="item_player_menu_delete">Delete</string>
 
 </resources>

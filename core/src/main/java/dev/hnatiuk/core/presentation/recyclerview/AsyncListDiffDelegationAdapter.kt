@@ -1,9 +1,6 @@
 package dev.hnatiuk.core.presentation.recyclerview
 
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
@@ -16,18 +13,19 @@ class AsyncListDiffDelegationAdapter<T : Any>(
 
     private val diffCallbackDelegates = DiffUtilCallbackDelegatesManager<T>()
     private val delegatesManager: AdapterDelegatesManager<List<T>> = AdapterDelegatesManager()
-    private val differ = AsyncListDiffer<T>(this, diffCallbackDelegates)
+    private val differ = AsyncListDiffer(this, diffCallbackDelegates)
 
     var items: List<T>
         get() = differ.currentList
-        set(value) { differ.submitList(value) }
+        set(value) {
+            differ.submitList(value)
+        }
 
     init {
         delegate.forEach { (diffItemCallback, adapterDelegate) ->
             delegatesManager.addDelegate(adapterDelegate)
             diffCallbackDelegates.delegates.add(diffItemCallback)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -35,17 +33,21 @@ class AsyncListDiffDelegationAdapter<T : Any>(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegatesManager.onBindViewHolder(differ.getCurrentList(), position, holder, null)
+        delegatesManager.onBindViewHolder(differ.currentList, position, holder, null)
         onBindListener?.invoke(position)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<*>) {
-        delegatesManager.onBindViewHolder(differ.getCurrentList(), position, holder, payloads)
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: List<*>
+    ) {
+        delegatesManager.onBindViewHolder(differ.currentList, position, holder, payloads)
         onBindListener?.invoke(position)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return delegatesManager.getItemViewType(differ.getCurrentList(), position)
+        return delegatesManager.getItemViewType(differ.currentList, position)
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
@@ -66,14 +68,5 @@ class AsyncListDiffDelegationAdapter<T : Any>(
 
     override fun getItemCount(): Int {
         return differ.currentList.size
-    }
-
-    fun <I : T> subscribe(
-        lifecycleOwner: LifecycleOwner,
-        liveDate: LiveData<List<I>>
-    ): Observer<List<I>> {
-        val observer = Observer<List<I>> { items = it }
-        liveDate.observe(lifecycleOwner, observer)
-        return observer
     }
 }

@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -20,8 +21,17 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        getByName("debug") {
             isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -60,4 +70,7 @@ dependencies {
     implementation("adapterDelegatesViewBinding".asDependency)
     implementation("hiltAndroid".asDependency)
     kapt("hiltCompiler".asDependency)
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0-alpha01")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0-alpha01")
 }

@@ -4,13 +4,15 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.hnatiuk.uno_score.data.repositories.SettingsRepositoryImpl
-import dev.hnatiuk.uno_score.domain.repository.SettingsRepository
+import dev.hnatiuk.uno_score.data.repositories.GameRepositoryImpl
+import dev.hnatiuk.uno_score.domain.repository.GameRepository
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
 
     @Binds
-    fun provideSettingsRepository(repository: SettingsRepositoryImpl): SettingsRepository
+    @Singleton
+    fun provideGameRepository(repository: GameRepositoryImpl): GameRepository
 }

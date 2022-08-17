@@ -13,9 +13,16 @@
     <color name="uno_green">#379711</color>
     <color name="uno_yellow">#ECD407</color>
 
+<!--    <color name="background_round_history_red">#33D72600</color>-->
+<!--    <color name="background_round_history_blue">#330956BF</color>-->
+<!--    <color name="background_round_history_green">#33379711</color>-->
+<!--    <color name="background_round_history_yellow">#33ECD407</color>-->
+
     <!-- Text Colors -->
     <color name="text_color_primary">#3E5481</color>
     <color name="text_color_secondary">#2E3E5C</color>
     <color name="text_color_thirdly">#9FA5C0</color>
+
+    <color name="score_background_color">#26C4C8D6</color>
 
 </resources>

@@ -4,7 +4,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.BaseViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.Event
 import dev.hnatiuk.core.presentation.navigation.ApplicationRouter
-import dev.hnatiuk.uno_score.presentation.navigation.Screens
+import dev.hnatiuk.uno_score.presentation.pages.start.StartFragment
 import javax.inject.Inject
 
 sealed class HostEvent : Event
@@ -15,6 +15,6 @@ class HostViewModel @Inject constructor(
 ) : BaseViewModel<HostEvent>() {
 
     fun launch() {
-        applicationRouter.newRootScreen(Screens.start())
+        applicationRouter.newRootScreen(StartFragment.screen())
     }
 }

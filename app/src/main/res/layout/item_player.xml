@@ -1,30 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/item_player_height"
+    android:background="@drawable/background_item_player">
 
-    <EditText
+    <TextView
+        android:id="@+id/number"
+        style="?attr/playerNumber"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="@dimen/small_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1" />
+
+    <TextView
         android:id="@+id/name"
+        style="?attr/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/number"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Maxim S" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/roundHistory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:hint="Name"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="@id/name"
         app:layout_constraintEnd_toStartOf="@id/score"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/name"
+        app:layout_constraintTop_toTopOf="@id/name"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_round_history" />
 
-    <EditText
+    <TextView
         android:id="@+id/score"
-        android:layout_width="102dp"
+        style="?attr/finalScoreValue"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:hint="Score"
+        android:layout_marginEnd="@dimen/small_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:backgroundTint="#B3D72600"
+        tools:text="888" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

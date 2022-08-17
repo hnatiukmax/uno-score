@@ -4,9 +4,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 fun Fragment.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(requireContext(), message, length).show()
+    requireContext().toast(message, length)
 }
 
-fun Fragment.dpToPx(dp: Int): Int {
-    return (dp * resources.displayMetrics.density).toInt()
+fun Fragment.dpToPx(value: Int): Int {
+    return requireContext().dpToPx(value)
 }

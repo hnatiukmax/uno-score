@@ -3,6 +3,13 @@
 
     <dimen name="buttonPrimaryHeight">56dp</dimen>
 
+    <!-- Widget -->
+    <dimen name="item_player_height">48dp</dimen>
+    <dimen name="item_player_round_result_height">52dp</dimen>
+
+    <!-- Margin -->
+    <dimen name="margin_divider_player_item">3dp</dimen>
+
     <!-- Text -->
     <dimen name="text_size_title">22sp</dimen>
     <dimen name="text_size_large">18sp</dimen>

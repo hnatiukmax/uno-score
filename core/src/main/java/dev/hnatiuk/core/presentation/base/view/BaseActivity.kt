@@ -6,6 +6,7 @@ import androidx.viewbinding.ViewBinding
 import dev.hnatiuk.core.presentation.base.LayoutInflate
 import dev.hnatiuk.core.presentation.base.viewmodel.BaseViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.Event
+import dev.hnatiuk.core.presentation.extensions.toast
 
 abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel<E>, E : Event> :
     AppCompatActivity(), View<VB, VM, E> {
@@ -25,16 +26,18 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel<E>, E : Event> 
         handleViewModel()
     }
 
-    private fun handleViewModel() {
-        viewModel.observeViewModel()
-        viewModel.event.observe(this, ::handleEvent)
+    private fun handleViewModel() = with(viewModel) {
+        observeViewModel()
+        event.observe(this@BaseActivity, ::handleEvent)
+        onShowToastMessage.observe(this@BaseActivity) {
+            when (it) {
+                is BaseViewModel.Message.StringMessage -> toast(it.value)
+                is BaseViewModel.Message.ResourceMessage -> toast(getString(it.resId, it.args))
+            }
+        }
     }
 
     override fun VB.initUI() {
-        //no op
-    }
-
-    override fun VB.bind() {
         //no op
     }
 

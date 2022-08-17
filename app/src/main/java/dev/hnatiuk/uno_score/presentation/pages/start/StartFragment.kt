@@ -1,16 +1,23 @@
 package dev.hnatiuk.uno_score.presentation.pages.start
 
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
+import com.github.terrakok.cicerone.androidx.FragmentScreen
 import dagger.hilt.android.AndroidEntryPoint
 import dev.hnatiuk.core.presentation.base.Inflate
 import dev.hnatiuk.core.presentation.base.view.BaseFragment
 import dev.hnatiuk.core.presentation.binding.bind
 import dev.hnatiuk.core.presentation.extensions.dpToPx
 import dev.hnatiuk.core.presentation.recyclerview.AsyncListDiffDelegationAdapter
-import dev.hnatiuk.core.presentation.recyclerview.decorator.MarginItemDecoration
+import dev.hnatiuk.core.presentation.recyclerview.decorator.GridItemDecoration
+import dev.hnatiuk.core.presentation.recyclerview.layoutmanager.SpannableGridLayoutManager
+import dev.hnatiuk.core.presentation.recyclerview.layoutmanager.SpannableGridLayoutManager.GridSpanLookup
+import dev.hnatiuk.core.presentation.recyclerview.layoutmanager.SpannableGridLayoutManager.SpanInfo
 import dev.hnatiuk.uno_score.databinding.FragmentStartBinding
-import dev.hnatiuk.uno_score.presentation.recyclerview.adapter.finalScoreAdapterDelegate
+import dev.hnatiuk.uno_score.domain.entity.Score
+import dev.hnatiuk.uno_score.presentation.pages.editscore.EditFinalScoreDialog
+import dev.hnatiuk.uno_score.presentation.recyclerview.adapter.customLabelScoreSuggestionAdapterDelegate
+import dev.hnatiuk.uno_score.presentation.recyclerview.adapter.finalScoreSuggestionItemAdapterDelegate
 
 @AndroidEntryPoint
 class StartFragment : BaseFragment<FragmentStartBinding, StartViewModel, StartEvent>() {
@@ -21,29 +28,49 @@ class StartFragment : BaseFragment<FragmentStartBinding, StartViewModel, StartEv
 
     private val finalScoreSuggestionsAdapter by lazy {
         AsyncListDiffDelegationAdapter(
-            finalScoreAdapterDelegate(viewModel::onFinalScoreSelected)
+            finalScoreSuggestionItemAdapterDelegate { viewModel.onFinalScoreSelected(it.score) },
+            customLabelScoreSuggestionAdapterDelegate(viewModel::onCustomFinalScoreSelected)
         )
     }
 
     override fun FragmentStartBinding.initUI() {
         initFinalScoreSuggestions()
-        start.setOnClickListener { viewModel.onStartClick() }
-        scoreDown.setOnClickListener { viewModel.onScoreDown() }
-        scoreUp.setOnClickListener { viewModel.onScoreUp() }
+        setupFragmentResultListeners()
     }
 
-    override fun FragmentStartBinding.bind(): Unit = with(viewModel) {
-        finalScore.bind(viewLifecycleOwner, finalScoreData)
-        finalScoreSuggestionsAdapter.subscribe(viewLifecycleOwner, finalScoreSuggestionsData)
+    override fun StartViewModel.observeViewModel() {
+        finalScoreSuggestionsAdapter.bind(viewLifecycleOwner, finalScoreSuggestionsData)
     }
 
     private fun initFinalScoreSuggestions() = with(binding) {
         finalScoreSuggestions.adapter = finalScoreSuggestionsAdapter
-        finalScoreSuggestions.addItemDecoration(
-            MarginItemDecoration(
-                dpToPx(4),
-                RecyclerView.HORIZONTAL
-            )
-        )
+        finalScoreSuggestions.layoutManager =
+            SpannableGridLayoutManager(spanLookup = object : GridSpanLookup {
+                override fun getSpanInfo(position: Int): SpanInfo {
+                    return when (position) {
+                        0 -> SpanInfo(5, 5)
+                        1 -> SpanInfo(3, 3)
+                        2 -> SpanInfo(2, 3)
+                        3 -> SpanInfo(2, 2)
+                        4 -> SpanInfo(3, 2)
+                        else -> SpanInfo(0, 0)
+                    }
+                }
+            }, columns = 10, cellAspectRatio = 1f)
+        finalScoreSuggestions.addItemDecoration(GridItemDecoration(dpToPx(2)))
+    }
+
+    private fun setupFragmentResultListeners() {
+        setFragmentResultListener(EditFinalScoreDialog.NEW_SCORE_REQUEST_KEY) { _, bundle ->
+            val newScore = bundle.getInt(EditFinalScoreDialog.NEW_SCORE_ARG)
+            viewModel.onFinalScoreSelected(Score(newScore))
+        }
+    }
+
+    companion object {
+
+        fun screen() = FragmentScreen {
+            StartFragment()
+        }
     }
 }

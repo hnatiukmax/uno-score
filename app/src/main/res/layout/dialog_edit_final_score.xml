@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        style="?attr/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:text="@string/edit_final_score_change_score" />
+
+    <EditText
+        android:id="@+id/newFinalScore"
+        style="?attr/inputFilled"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_filled_height"
+        android:layout_marginHorizontal="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/large_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:gravity="center"
+        android:hint="@string/score_score_hint"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        tools:text="0" />
+
+    <Button
+        android:id="@+id/apply"
+        style="?attr/buttonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttonPrimaryHeight"
+        android:layout_marginHorizontal="@dimen/medium_margin"
+        android:layout_marginVertical="@dimen/small_margin"
+        android:text="@string/edit_final_score_apply" />
+
+</LinearLayout>

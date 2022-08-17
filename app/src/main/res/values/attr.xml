@@ -5,4 +5,20 @@
     <attr name="buttonChip" format="reference" />
     <attr name="inputFilled" format="reference" />
 
+    <!-- Text -->
+    <attr name="title" format="reference" />
+    <attr name="titleEmpty" format="reference" />
+
+    <attr name="titledValueContainer" format="reference" />
+    <attr name="titledValueTitle" format="reference" />
+    <attr name="titledValue" format="reference" />
+
+    <attr name="finalScoreValue" format="reference" />
+
+    <attr name="playerNumber" format="reference" />
+    <attr name="playerName" format="reference" />
+    <attr name="playerRoundResult" format="reference" />
+
+    <attr name="loserName" format="reference" />
+
 </resources>

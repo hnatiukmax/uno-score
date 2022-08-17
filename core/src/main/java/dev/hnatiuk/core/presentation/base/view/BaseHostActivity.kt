@@ -9,8 +9,9 @@ import dev.hnatiuk.core.presentation.navigation.ApplicationNavigator
 
 abstract class BaseHostActivity<VB : ViewBinding, VM : BaseViewModel<E>, E : Event> : BaseActivity<VB, VM, E>() {
 
-    abstract var navigationHolder: NavigatorHolder
     abstract val containerId: Int
+
+    abstract var navigationHolder: NavigatorHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

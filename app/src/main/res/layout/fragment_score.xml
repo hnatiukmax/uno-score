@@ -5,49 +5,259 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/score"
+    <LinearLayout
+        android:id="@+id/finalScoreContainer"
+        style="?attr/titledValueContainer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin"
         android:layout_marginTop="@dimen/medium_margin"
-        android:textColor="@color/uno_blue"
-        android:textSize="32sp"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="450" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/finalScoreTitle"
+            style="?attr/titledValueTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score_final_score_title" />
+
+        <TextView
+            android:id="@+id/score"
+            style="?attr/titledValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/uno_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="450" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/roundContainer"
+        style="?attr/titledValueContainer"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:background="@drawable/background_title_value_container"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/roundTitle"
+            style="?attr/titledValueTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score_round_title" />
+
+        <TextView
+            android:id="@+id/round"
+            style="?attr/titledValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/uno_green"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="6" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/playersEmpty"
+        style="?attr/titleEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/score_players_will_be_here"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/finalScoreContainer"
+        app:layout_constraintVertical_bias="0.3" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/players"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/small_margin"
-        app:layout_constraintBottom_toBottomOf="@id/addPlayer"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginBottom="@dimen/extra_large_margin"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="wrap"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/score"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_player" />
+        app:layout_constraintTop_toBottomOf="@id/finalScoreContainer"
+        app:layout_constraintVertical_bias="0"
+        tools:itemCount="7"
+        tools:listitem="@layout/item_player"
+        tools:visibility="gone" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addPlayer"
-        style="?attr/buttonPrimary"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom"
         android:layout_width="0dp"
-        android:layout_marginHorizontal="20dp"
-        android:text="Add Player"
-        app:layout_constraintBottom_toTopOf="@id/start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/start"
-        style="?attr/buttonPrimary"
-        android:layout_width="0dp"
-        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_top_rounded"
+        android:paddingTop="@dimen/large_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Start" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/newPlayerName"
+            style="?attr/inputFilled"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/edit_text_filled_height"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:hint="@string/score_name_hint"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@id/addPlayer"
+            app:layout_constraintEnd_toStartOf="@id/newPlayerScore"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Maxim" />
+
+        <EditText
+            android:id="@+id/newPlayerScore"
+            style="?attr/inputFilled"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/edit_text_filled_height"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:gravity="center"
+            android:hint="@string/score_score_hint"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            app:layout_constraintBottom_toTopOf="@id/addPlayer"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addPlayer"
+            style="?attr/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonPrimaryHeight"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/score_add_player"
+            app:layout_constraintBottom_toTopOf="@id/calculate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/calculate"
+            style="?attr/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonPrimaryHeight"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="@dimen/small_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Calculate for 1 round" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loserContainer"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:background="@drawable/background_filled_edit_text"
+            android:isScrollContainer="true"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/small_margin"
+            app:layout_constraintBottom_toTopOf="@id/reset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/loserTitle"
+                style="?attr/titledValueTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:scrollbars="vertical"
+                android:text="@string/score_loser_title"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/loser"
+                style="?attr/loserName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/small_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/loserScore"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/loserTitle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="wrap"
+                tools:text="Maxim S, Maxim S, Maxim S, Maxim S" />
+
+            <TextView
+                android:id="@+id/loserScore"
+                style="?attr/finalScoreValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#B3D72600"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="888" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reset"
+            style="?attr/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonPrimaryHeight"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/score_reset"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/finish"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/finish"
+            style="?attr/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonPrimaryHeight"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:text="@string/score_finish"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/activeGameGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="newPlayerName,newPlayerScore,addPlayer,calculate" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/endedGameGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="loserContainer,finish,reset" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

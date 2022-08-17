@@ -1,14 +1,17 @@
 package dev.hnatiuk.uno_score.presentation.pages.start
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.BaseViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.Event
 import dev.hnatiuk.core.presentation.navigation.ApplicationRouter
+import dev.hnatiuk.uno_score.R
 import dev.hnatiuk.uno_score.domain.entity.Score
-import dev.hnatiuk.uno_score.domain.repository.SettingsRepository
+import dev.hnatiuk.uno_score.presentation.pages.editscore.EditFinalScoreDialog
 import dev.hnatiuk.uno_score.presentation.pages.score.ScoreFragment
+import dev.hnatiuk.uno_score.presentation.recyclerview.items.FinalScoreSuggestionItem
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,47 +19,44 @@ sealed class StartEvent : Event
 
 @HiltViewModel
 class StartViewModel @Inject constructor(
-    private val applicationRouter: ApplicationRouter,
-    private val settingsRepository: SettingsRepository
+    private val applicationRouter: ApplicationRouter
 ) : BaseViewModel<StartEvent>() {
 
-    val finalScoreData = MutableLiveData<String>()
-    val finalScoreSuggestionsData = MutableLiveData<List<Score>>()
+    private val _finalScoreSuggestionsData = MutableLiveData<List<Score>>()
+
+    val finalScoreSuggestionsData = _finalScoreSuggestionsData.map(::composeFinalScoreSuggestion)
+
+    fun onFinalScoreSelected(score: Score) {
+        applicationRouter.navigateTo(ScoreFragment.screen(score.value))
+    }
+
+    fun onCustomFinalScoreSelected() {
+        applicationRouter.showDialog(EditFinalScoreDialog.screen(isEditMode = false))
+    }
 
     override fun onViewLoaded() {
         viewModelScope.launch {
-            finalScoreSuggestionsData.value = settingsRepository.getFinalScoreSuggestions()
-            finalScoreData.value = settingsRepository.getDefaultFinalScore().value.toString()
+            _finalScoreSuggestionsData.value = getFinalScoreSuggestions()
         }
     }
 
-    fun onFinalScoreSelected(score: Score) {
-        finalScoreData.value = score.value.toString()
+    private fun getFinalScoreSuggestions(): List<Score> {
+        return listOf(
+            Score(100),
+            Score(200),
+            Score(300),
+            Score(400),
+            Score(500)
+        )
     }
 
-    fun onScoreDown() {
-        changeFinalScoreFor(FINAL_SCORE_PERIOD * -1)
-    }
-
-    fun onScoreUp() {
-        changeFinalScoreFor(FINAL_SCORE_PERIOD)
-    }
-
-    fun onStartClick() {
-        val score = finalScoreData.value?.toIntOrNull() ?: return
-        applicationRouter.navigateTo(ScoreFragment.screen(score))
-    }
-
-    private fun changeFinalScoreFor(value: Int) {
-        finalScoreData.value = finalScoreData.value
-            ?.toIntOrNull()
-            ?.plus(value)
-            ?.toString()
-            ?: finalScoreData.value
-    }
-
-    companion object {
-
-        private const val FINAL_SCORE_PERIOD = 50
+    private fun composeFinalScoreSuggestion(suggestions: List<Score>): List<FinalScoreSuggestionItem> {
+        val scoreColors = listOf(R.color.uno_red, R.color.uno_yellow, R.color.uno_blue, R.color.uno_green)
+        return suggestions
+            .take(scoreColors.size)
+            .sortedByDescending { score -> score.value }
+            .zip(scoreColors)
+            .map { FinalScoreSuggestionItem.ScoreItem(it.first, it.second) }
+            .plus(FinalScoreSuggestionItem.CustomItem)
     }
 }

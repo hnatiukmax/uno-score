@@ -8,8 +8,6 @@ interface View<VB : ViewBinding, VM : BaseViewModel<E>, E : Event> {
 
     fun VB.initUI()
 
-    fun VB.bind()
-
     fun VM.observeViewModel()
 
     fun handleEvent(event: Event)
