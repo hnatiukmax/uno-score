@@ -34,6 +34,7 @@ class StartFragment : BaseFragment<FragmentStartBinding, StartViewModel, StartEv
     }
 
     override fun FragmentStartBinding.initUI() {
+        version.bind(viewLifecycleOwner, viewModel.version)
         initFinalScoreSuggestions()
         setupFragmentResultListeners()
     }

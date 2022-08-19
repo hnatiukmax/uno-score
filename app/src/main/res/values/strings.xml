@@ -1,6 +1,7 @@
 <resources>
 
-    <string name="app_name">uno-score</string>
+    <string name="app_name_release">uno-score</string>
+    <string name="app_name_debug">uno-score-debug</string>
 
     <!-- Start -->
     <string name="start_final_score_hint">Score</string>

@@ -41,7 +41,7 @@
         <entry key="app/src/main/res/layout/item_final_score.xml" value="0.55" />
         <entry key="app/src/main/res/layout/item_final_score_suggestion.xml" value="0.23697916666666666" />
         <entry key="app/src/main/res/layout/item_player.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/item_player_round_result.xml" value="0.4148148148148148" />
+        <entry key="app/src/main/res/layout/item_player_round_result.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_round_history.xml" value="0.401590926558883" />
         <entry key="app/src/main/res/menu/menu_item_player.xml" value="0.2791666666666667" />
         <entry key="app/src/main/res/menu/menu_item_player_actions.xml" value="0.5786458333333333" />

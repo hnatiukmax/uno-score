@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            storePassword = "uno-score-pass"
+            storeFile = file("keys/release.keystore")
+            keyAlias = "uno-score-release-key"
+            keyPassword = "uno-score-pass-key"
+        }
+    }
     compileSdk = rootProject.extra["compileSdkVersion"] as Int
 
     defaultConfig {
@@ -22,6 +30,8 @@ android {
 
     buildTypes {
         getByName("debug") {
+            applicationIdSuffix = ".debug"
+            resValue("string", "app_name", "@string/app_name_debug")
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(
@@ -30,6 +40,8 @@ android {
             )
         }
         getByName("release") {
+            resValue("string", "app_name", "@string/app_name_release")
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
