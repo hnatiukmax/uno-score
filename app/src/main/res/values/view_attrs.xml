@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TitledValueView">
+        <attr name="tv_title" format="string" />
+        <attr name="tv_value" format="string" />
+        <attr name="tv_valueColor" format="reference|color" />
+    </declare-styleable>
+
+</resources>

@@ -50,11 +50,11 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
         binding.newPlayerName.bind(viewLifecycleOwner, newPlayerName, viewModel::onNewPlayerNameChanged)
         binding.newPlayerScore.bind(viewLifecycleOwner, newPlayerScore)
         binding.playersEmpty.bindVisibility(viewLifecycleOwner, isPlayersEmptyVisible)
-        binding.score.bind(viewLifecycleOwner, finalScore.map { it.toString() })
+        finalScore.observe(viewLifecycleOwner) { binding.finalScore.value = it.toString() }
         playersAdapter.bind(viewLifecycleOwner, playerItems)
         round.observe(viewLifecycleOwner) {
             binding.calculate.text = getString(R.string.score_calculate_for_round, it.toString())
-            binding.round.text = it.toString()
+            binding.round.value = it.toString()
         }
         losers.observe(viewLifecycleOwner) { losers ->
             binding.activeGameGroup.isVisible = losers.isEmpty()
@@ -72,7 +72,7 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
     }
 
     private fun setupClickListeners() = with(binding) {
-        finalScoreContainer.setOnClickListener { viewModel.onChangeFinalScoreClick() }
+        finalScore.setOnClickListener { viewModel.onChangeFinalScoreClick() }
         listOf(newPlayerName, newPlayerScore).forEach {
             it.doOnEditorAction(EditorInfo.IME_ACTION_DONE) {
                 requireContext().hideKeyboard(it)

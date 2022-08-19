@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/titledValueContainer"
+    tools:layout_height="36dp"
+    tools:layout_marginStart="@dimen/medium_margin"
+    tools:layout_marginTop="@dimen/medium_margin"
+    tools:layout_width="wrap_content"
+    tools:orientation="horizontal"
+    tools:parentTag="android.widget.LinearLayout"
+    tools:style="?attr/titledValueContainer">
+
+    <TextView
+        android:id="@+id/title"
+        style="?attr/titledValueTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/score_final_score_title" />
+
+    <TextView
+        android:id="@+id/value"
+        style="?attr/titledValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        tools:text="450"
+        tools:textColor="@color/uno_blue" />
+
+</merge>
