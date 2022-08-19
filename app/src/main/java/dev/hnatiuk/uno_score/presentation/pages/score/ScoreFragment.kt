@@ -1,6 +1,5 @@
 package dev.hnatiuk.uno_score.presentation.pages.score
 
-import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.PopupMenu
@@ -16,7 +15,9 @@ import dev.hnatiuk.core.presentation.base.Inflate
 import dev.hnatiuk.core.presentation.base.view.BaseFragment
 import dev.hnatiuk.core.presentation.binding.bind
 import dev.hnatiuk.core.presentation.binding.bindVisibility
-import dev.hnatiuk.core.presentation.extensions.*
+import dev.hnatiuk.core.presentation.extensions.addDivider
+import dev.hnatiuk.core.presentation.extensions.doOnEditorAction
+import dev.hnatiuk.core.presentation.extensions.makeScrollable
 import dev.hnatiuk.core.presentation.recyclerview.AsyncListDiffDelegationAdapter
 import dev.hnatiuk.core.presentation.utils.hideKeyboard
 import dev.hnatiuk.uno_score.R
