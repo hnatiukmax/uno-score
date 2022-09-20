@@ -5,4 +5,8 @@
         android:id="@+id/reset"
         android:title="@string/settings_menu_reset" />
 
+    <item
+        android:id="@+id/clear"
+        android:title="@string/settings_menu_clear" />
+
 </menu>

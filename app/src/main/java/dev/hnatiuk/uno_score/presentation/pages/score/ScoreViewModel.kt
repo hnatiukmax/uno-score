@@ -46,7 +46,7 @@ class ScoreViewModel @Inject constructor(
     val newPlayerScore = MutableLiveData(NEW_PLAYER_SCORE_DEFAULT)
 
     override fun onViewLoaded() {
-        startGame()
+        loadGame()
     }
 
     fun onPlayerDelete(item: PlayerItem.Player) {
@@ -80,8 +80,7 @@ class ScoreViewModel @Inject constructor(
 
     fun onAddPlayerClick() {
         val score = newPlayerScore.replace { NEW_PLAYER_SCORE_DEFAULT }?.toIntOrNull() ?: return
-        val name =
-            newPlayerName.replace { NEW_PLAYER_NAME_DEFAULT }?.takeUnless { it.isBlank() } ?: return
+        val name = newPlayerName.replace { NEW_PLAYER_NAME_DEFAULT }?.takeUnless { it.isBlank() } ?: return
 
         viewModelScope.launch {
             gameRepository.addPlayer(game.id, name, score)
@@ -99,17 +98,37 @@ class ScoreViewModel @Inject constructor(
     fun onResetClick() {
         val currentPlayers = game.players.map { it.name }
         currentGameFlowJob?.cancel()
-        startGame(currentPlayers)
+        startNewGame(currentPlayers)
+    }
+
+    fun onClearClick() {
+        currentGameFlowJob?.cancel()
+        startNewGame()
     }
 
     fun onFinishClick() {
         applicationRouter.exit()
     }
 
-    private fun startGame(startPlayers: List<String> = emptyList()) {
-        currentGameFlowJob = viewModelScope.launch {
+    private fun loadGame() {
+        viewModelScope.launch {
+            gameRepository.getLastGameId()
+                ?.let(::subscribeOnGame)
+                ?: startNewGame()
+        }
+    }
+
+    private fun startNewGame(startPlayers: List<String> = emptyList()) {
+        viewModelScope.launch {
+            gameRepository.clearGames()
             val id = gameRepository.createGame(scoreArg, startPlayers)
-            gameRepository.getGameFlow(id)
+            subscribeOnGame(id)
+        }
+    }
+
+    private fun subscribeOnGame(gameId: Int) {
+        currentGameFlowJob = viewModelScope.launch {
+            gameRepository.getGameFlow(gameId)
                 .distinctUntilChanged()
                 .collect { result ->
                     _game.value = result

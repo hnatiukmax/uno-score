@@ -15,5 +15,9 @@ interface GameRepository {
 
     suspend fun setRoundResult(gameId: Int, result: Map<Int, Int>)
 
+    suspend fun getLastGameId(): Int?
+
+    suspend fun clearGames()
+
     fun getGameFlow(id: Int): Flow<UnoGame>
 }

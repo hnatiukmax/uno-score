@@ -35,5 +35,6 @@
 
     <!-- Settings Menu -->
     <string name="settings_menu_reset">Reset</string>
+    <string name="settings_menu_clear">Clear</string>
 
 </resources>

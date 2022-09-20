@@ -99,6 +99,7 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
         view.showPopupMenu(R.menu.menu_settings) {
             when (it.itemId) {
                 R.id.reset -> viewModel.onResetClick()
+                R.id.clear -> viewModel.onClearClick()
             }
         }
     }

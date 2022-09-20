@@ -41,9 +41,13 @@ class GameRepositoryImpl @Inject constructor() : GameRepository {
     }
 
     override suspend fun addPlayer(gameId: Int, name: String, startScore: Int?) {
+        fun getNewPlayerId(game: UnoGame): Int {
+            return (game.players.maxOfOrNull { it.id } ?: 0).plus(1)
+        }
+
         emitForId(gameId) { game ->
             val newPlayer = Player(
-                id = game.players.size + 1,
+                id = getNewPlayerId(game),
                 name = name,
                 roundResults = if (startScore != null && startScore != 0) listOf(
                     RoundResult(START_SCORE_ROUND, startScore)
@@ -76,6 +80,14 @@ class GameRepositoryImpl @Inject constructor() : GameRepository {
             }
             game.copy(players = newPlayers, round = game.round + 1)
         }
+    }
+
+    override suspend fun clearGames() {
+        games.clear()
+    }
+
+    override suspend fun getLastGameId(): Int? {
+        return games.values.lastOrNull()?.id
     }
 
     private fun emitGameForId(gameId: Int) {
