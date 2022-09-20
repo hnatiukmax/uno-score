@@ -33,4 +33,7 @@
     <!-- Item Player -->
     <string name="item_player_menu_delete">Delete</string>
 
+    <!-- Settings Menu -->
+    <string name="settings_menu_reset">Reset</string>
+
 </resources>

@@ -22,13 +22,28 @@
         android:id="@+id/round"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
+        android:layout_marginStart="@dimen/small_margin"
         android:layout_marginTop="@dimen/medium_margin"
         android:layout_marginEnd="@dimen/medium_margin"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/finalScore"
         app:layout_constraintTop_toTopOf="parent"
         app:tv_title="@string/score_round_title"
         app:tv_valueColor="@color/uno_green"
         tools:tv_value="6" />
+
+    <ImageView
+        android:id="@+id/settings"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/background_title_value_container"
+        android:scaleType="center"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintBottom_toBottomOf="@id/round"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/round"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/playersEmpty"

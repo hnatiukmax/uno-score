@@ -2,12 +2,10 @@ package dev.hnatiuk.uno_score.presentation.pages.score
 
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.map
 import androidx.recyclerview.widget.RecyclerView
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +17,7 @@ import dev.hnatiuk.core.presentation.extensions.addDivider
 import dev.hnatiuk.core.presentation.extensions.doOnEditorAction
 import dev.hnatiuk.core.presentation.extensions.makeScrollable
 import dev.hnatiuk.core.presentation.recyclerview.AsyncListDiffDelegationAdapter
+import dev.hnatiuk.core.presentation.utils.SimplePopupMenu.Companion.showPopupMenu
 import dev.hnatiuk.core.presentation.utils.hideKeyboard
 import dev.hnatiuk.uno_score.R
 import dev.hnatiuk.uno_score.databinding.FragmentScoreBinding
@@ -86,6 +85,7 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
         calculate.setOnClickListener { viewModel.onCalculateClick() }
         reset.setOnClickListener { viewModel.onResetClick() }
         finish.setOnClickListener { viewModel.onFinishClick() }
+        settings.setOnClickListener { showSettingsMenu(it) }
     }
 
     private fun setupFragmentResultListeners() {
@@ -95,20 +95,19 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
         }
     }
 
-    private fun showPlayerActions(view: View, item: PlayerItem.Player) {
-        PopupMenu(requireContext(), view).apply {
-            inflate(R.menu.menu_item_player_actions)
-            setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.delete -> {
-                        viewModel.onPlayerDelete(item)
-                        true
-                    }
-                    else -> false
-                }
+    private fun showSettingsMenu(view: View) {
+        view.showPopupMenu(R.menu.menu_settings) {
+            when (it.itemId) {
+                R.id.reset -> viewModel.onResetClick()
             }
-        }.also {
-            it.show()
+        }
+    }
+
+    private fun showPlayerActions(view: View, item: PlayerItem.Player) {
+        view.showPopupMenu(R.menu.menu_item_player_actions) {
+            when (it.itemId) {
+                R.id.delete -> viewModel.onPlayerDelete(item)
+            }
         }
     }
 
