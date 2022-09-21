@@ -15,10 +15,12 @@
         <item name="android:windowTranslucentStatus">true</item>
 
         <item name="buttonPrimary">@style/Widget.Button.Primary</item>
+        <item name="buttonSecondary">@style/Widget.Button.Secondary</item>
         <item name="inputFilled">@style/Widget.EditText.Filled</item>
 
         <item name="title">@style/Widget.Title</item>
         <item name="titleEmpty">@style/Widget.TitleEmpty</item>
+        <item name="description">@style/Widget.Description</item>
 
         <item name="titledValueContainer">@style/Widget.TitledValueContainer</item>
         <item name="titledValueTitle">@style/Widget.TitledValueTitle</item>
@@ -48,6 +50,15 @@
         <item name="fontFamily">@font/inter_bold</item>
     </style>
 
+    <style name="Widget.Button.Secondary">
+        <item name="android:layout_height">@dimen/buttonPrimaryHeight</item>
+        <item name="android:paddingLeft">@dimen/medium_margin</item>
+        <item name="android:paddingRight">@dimen/medium_margin</item>
+        <item name="cornerRadius">4dp</item>
+        <item name="backgroundTint">@color/button_secondary</item>
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+
     <style name="Widget.Title">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/black</item>
@@ -57,6 +68,12 @@
     <style name="Widget.TitleEmpty">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/text_color_thirdly</item>
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="Widget.Description">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/inter_medium</item>
     </style>
 

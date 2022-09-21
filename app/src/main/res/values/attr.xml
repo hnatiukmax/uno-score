@@ -3,11 +3,13 @@
 
     <attr name="buttonPrimary" format="reference" />
     <attr name="buttonChip" format="reference" />
+    <attr name="buttonSecondary" format="reference" />
     <attr name="inputFilled" format="reference" />
 
     <!-- Text -->
     <attr name="title" format="reference" />
     <attr name="titleEmpty" format="reference" />
+    <attr name="description" format="reference" />
 
     <attr name="titledValueContainer" format="reference" />
     <attr name="titledValueTitle" format="reference" />

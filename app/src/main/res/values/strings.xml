@@ -37,4 +37,8 @@
     <string name="settings_menu_reset">Reset</string>
     <string name="settings_menu_clear">Clear</string>
 
+    <!-- Dialog Two Action -->
+    <string name="dialog_two_action_confirm">Confirm</string>
+    <string name="dialog_two_action_cancel">Cancel</string>
+
 </resources>
