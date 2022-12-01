@@ -20,10 +20,6 @@
     <string name="score_loser_title">Loser:</string>
     <string name="score_players_will_be_here">Players will be here</string>
 
-    <!-- Edit Final Score -->
-    <string name="edit_final_score_apply">Apply</string>
-    <string name="edit_final_score_change_score">Change Final Score</string>
-
     <!-- Round Result -->
     <string name="round_result_apply">Apply</string>
     <string name="round_result_all_players_warning">Set result for all players</string>
@@ -36,9 +32,42 @@
     <!-- Settings Menu -->
     <string name="settings_menu_reset">Reset</string>
     <string name="settings_menu_clear">Clear</string>
+    <string name="settings_menu_players">Players</string>
+
+    <!-- Player Menu -->
+    <string name="player_menu_set_lose_count">Set lose count</string>
+    <string name="player_menu_delete">Delete</string>
 
     <!-- Dialog Two Action -->
     <string name="dialog_two_action_confirm">Confirm</string>
     <string name="dialog_two_action_cancel">Cancel</string>
+
+    <!-- Select Players -->
+    <string name="select_players_title">Select players</string>
+    <string name="select_players_apply">Apply</string>
+
+    <!-- Players -->
+    <string name="players_title">Players</string>
+    <string name="players_add_player">Add player</string>
+    <string name="players_hint_name">Name</string>
+    <string name="players_hint_lose_count">Lose count</string>
+
+    <!-- Input Dialog -->
+    <string name="input_dialog_empty_hint">Field is empty</string>
+
+    <!-- Set Lose Count -->
+    <string name="set_lose_count_title">Set lose count</string>
+    <string name="set_lose_count_input_hint">Lose count</string>
+    <string name="set_lose_count_apply_button_text">Set</string>
+
+    <!-- Add New Player -->
+    <string name="add_new_player_title">Add new player</string>
+    <string name="add_new_player_input_hint">Player name</string>
+    <string name="add_new_player_positive_button">Add</string>
+
+    <!-- Set Final Score -->
+    <string name="set_final_score_title">Set Final Score</string>
+    <string name="set_final_score_input_hint">Score</string>
+    <string name="set_final_score_positive_button">Apply</string>
 
 </resources>

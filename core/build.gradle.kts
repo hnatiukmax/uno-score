@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -50,4 +51,7 @@ dependencies {
     implementation("cicerone".asDependency)
     implementation("adapterDelegatesLayoutContainer".asDependency)
     implementation("adapterDelegatesViewBinding".asDependency)
+
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0-alpha01")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0-alpha01")
 }

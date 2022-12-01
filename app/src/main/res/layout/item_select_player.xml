@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_player_round_result_height"
+    android:background="@drawable/background_item_player">
+
+    <TextView
+        android:id="@+id/number"
+        style="?attr/playerNumber"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="@dimen/small_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/name"
+        style="?attr/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/number"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Maxim S" />
+
+    <CheckBox
+        android:id="@+id/switchSelect"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/name"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:button="@null"
+        android:background="@drawable/ic_check_box"
+        app:layout_constraintTop_toTopOf="@id/name"
+        tools:ignore="Autofill" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

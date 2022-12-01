@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@id/finalScore"
         app:layout_constraintVertical_bias="0"
         tools:itemCount="7"
-        tools:listitem="@layout/item_player"
+        tools:listitem="@layout/item_game_player"
         tools:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,55 +82,36 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_top_rounded"
-        android:paddingTop="@dimen/large_margin"
+        android:paddingTop="@dimen/medium_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
-        <EditText
-            android:id="@+id/newPlayerName"
-            style="?attr/inputFilled"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/edit_text_filled_height"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="@dimen/medium_margin"
-            android:layout_marginBottom="@dimen/small_margin"
-            android:hint="@string/score_name_hint"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            app:layout_constraintBottom_toTopOf="@id/addPlayer"
-            app:layout_constraintEnd_toStartOf="@id/newPlayerScore"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Maxim" />
-
-        <EditText
-            android:id="@+id/newPlayerScore"
-            style="?attr/inputFilled"
-            android:layout_width="100dp"
-            android:layout_height="@dimen/edit_text_filled_height"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="@dimen/small_margin"
-            android:gravity="center"
-            android:hint="@string/score_score_hint"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="numberDecimal"
-            app:layout_constraintBottom_toTopOf="@id/addPlayer"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="0" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addPlayer"
             style="?attr/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="@dimen/buttonPrimaryHeight"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="@dimen/small_margin"
             android:text="@string/score_add_player"
             app:layout_constraintBottom_toTopOf="@id/calculate"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/playersList"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/playersList"
+            style="?attr/buttonPrimary"
+            android:layout_width="50dp"
+            android:layout_height="@dimen/buttonPrimaryHeight"
+            android:layout_marginHorizontal="20dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            app:icon="@drawable/ic_players_list"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toTopOf="@id/calculate"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calculate"
@@ -227,14 +208,14 @@
             android:id="@+id/activeGameGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="newPlayerName,newPlayerScore,addPlayer,calculate" />
+            android:visibility="visible"
+            app:constraint_referenced_ids="addPlayer,calculate,playersList" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/endedGameGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="loserContainer,finish,reset" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

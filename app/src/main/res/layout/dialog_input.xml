@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin"
         android:layout_marginTop="@dimen/medium_margin"
-        android:text="@string/edit_final_score_change_score" />
+        tools:text="@string/set_final_score_title" />
 
     <EditText
-        android:id="@+id/newFinalScore"
+        android:id="@+id/input"
         style="?attr/inputFilled"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_filled_height"
@@ -23,9 +23,9 @@
         android:layout_marginTop="@dimen/large_margin"
         android:layout_marginBottom="@dimen/small_margin"
         android:gravity="center"
-        android:hint="@string/score_score_hint"
         android:importantForAutofill="no"
-        android:inputType="numberDecimal"
+        tools:hint="@string/score_score_hint"
+        tools:inputType="numberDecimal"
         tools:text="0" />
 
     <Button
@@ -35,6 +35,6 @@
         android:layout_height="@dimen/buttonPrimaryHeight"
         android:layout_marginHorizontal="@dimen/medium_margin"
         android:layout_marginVertical="@dimen/small_margin"
-        android:text="@string/edit_final_score_apply" />
+        tools:text="@string/set_final_score_positive_button" />
 
 </LinearLayout>

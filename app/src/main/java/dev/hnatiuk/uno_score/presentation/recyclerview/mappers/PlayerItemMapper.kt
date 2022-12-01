@@ -2,28 +2,28 @@ package dev.hnatiuk.uno_score.presentation.recyclerview.mappers
 
 import androidx.annotation.ColorRes
 import dev.hnatiuk.uno_score.R
-import dev.hnatiuk.uno_score.domain.entity.Player
+import dev.hnatiuk.uno_score.domain.entity.GameParticipant
 import dev.hnatiuk.uno_score.domain.entity.RoundResult
 import dev.hnatiuk.uno_score.domain.entity.RoundResult.Companion.START_SCORE_ROUND
-import dev.hnatiuk.uno_score.presentation.recyclerview.items.PlayerItem
+import dev.hnatiuk.uno_score.presentation.recyclerview.items.GamePlayerItem
 
 object PlayerItemMapper {
 
-    fun mapPlayersToPlayerItems(finalScore: Int, list: List<Player>): List<PlayerItem> {
-        return list.mapIndexed { playerIndex, player ->
-            PlayerItem.Player(
-                id = player.id,
-                number = playerIndex + 1,
-                name = player.name,
-                roundHistory = player.roundResults.map { result ->
-                    PlayerItem.Player.RoundResult(
+    fun mapPlayersToPlayerItems(finalScore: Int, list: List<GameParticipant>): List<GamePlayerItem> {
+        return list.mapIndexed { participantIndex, participant ->
+            GamePlayerItem.Player(
+                id = participant.player.id,
+                number = participantIndex + 1,
+                name = participant.player.name,
+                roundHistory = participant.roundResults.map { result ->
+                    GamePlayerItem.Player.RoundResult(
                         round = result.round,
                         score = result.result,
                         color = calculateColorForRoundScore(finalScore, result)
                     )
                 },
-                score = player.score,
-                scoreBackgroundColor = calculateColorForCurrentScore(finalScore, player.score)
+                score = participant.score,
+                scoreBackgroundColor = calculateColorForCurrentScore(finalScore, participant.score)
             )
         }
             .sortedByDescending { it.score }

@@ -9,4 +9,8 @@
         android:id="@+id/clear"
         android:title="@string/settings_menu_clear" />
 
+    <item
+        android:id="@+id/players"
+        android:title="@string/settings_menu_players" />
+
 </menu>

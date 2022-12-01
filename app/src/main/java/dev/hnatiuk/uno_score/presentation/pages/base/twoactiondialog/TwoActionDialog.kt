@@ -1,4 +1,4 @@
-package dev.hnatiuk.uno_score.presentation.pages.base
+package dev.hnatiuk.uno_score.presentation.pages.base.twoactiondialog
 
 import android.os.Parcelable
 import androidx.core.os.bundleOf
@@ -11,9 +11,9 @@ import dev.hnatiuk.core.presentation.base.viewmodel.Event
 import dev.hnatiuk.core.presentation.binding.bind
 import dev.hnatiuk.core.presentation.navigation.DialogScreen
 import dev.hnatiuk.uno_score.databinding.DialogTwoActionBinding
-import dev.hnatiuk.uno_score.presentation.pages.base.TwoActionDialogEvent.OnCloseWithCancelResult
-import dev.hnatiuk.uno_score.presentation.pages.base.TwoActionDialogEvent.OnCloseWithConfirmResult
-import dev.hnatiuk.uno_score.presentation.pages.base.TwoActionDialogViewModel.Companion.TWO_ACTION_DIALOG_ARG
+import dev.hnatiuk.uno_score.presentation.pages.base.twoactiondialog.TwoActionDialogEvent.OnCloseWithCancelResult
+import dev.hnatiuk.uno_score.presentation.pages.base.twoactiondialog.TwoActionDialogEvent.OnCloseWithConfirmResult
+import dev.hnatiuk.uno_score.presentation.pages.base.twoactiondialog.TwoActionDialogViewModel.Companion.TWO_ACTION_DIALOG_ARG
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

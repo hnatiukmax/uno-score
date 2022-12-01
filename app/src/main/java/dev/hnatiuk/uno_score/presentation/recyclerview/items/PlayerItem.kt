@@ -1,22 +1,11 @@
 package dev.hnatiuk.uno_score.presentation.recyclerview.items
 
-import androidx.annotation.ColorRes
+import dev.hnatiuk.uno_score.domain.entity.Player
 
 sealed class PlayerItem {
 
-    data class Player(
-        val id: Int,
+    data class Item(
         val number: Int,
-        val name: String,
-        val roundHistory: List<RoundResult>,
-        val score: Int,
-        @ColorRes val scoreBackgroundColor: Int
-    ) : PlayerItem() {
-
-        data class RoundResult(
-            val round: Int,
-            val score: Int,
-            @ColorRes val color: Int
-        )
-    }
+        val data: Player
+    ) : PlayerItem()
 }

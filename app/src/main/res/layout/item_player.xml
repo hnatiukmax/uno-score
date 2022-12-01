@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/item_player_height"
+    android:layout_height="@dimen/item_player_round_result_height"
     android:background="@drawable/background_item_player">
 
     <TextView
@@ -28,32 +28,15 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Maxim S" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/roundHistory"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginEnd="@dimen/medium_margin"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="@id/name"
-        app:layout_constraintEnd_toStartOf="@id/score"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/name"
-        app:layout_constraintTop_toTopOf="@id/name"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_round_history" />
-
     <TextView
-        android:id="@+id/score"
-        style="?attr/finalScoreValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/loseCount"
+        style="?attr/loseCount"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="@dimen/small_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:backgroundTint="#B3D72600"
-        tools:text="888" />
+        tools:text="99" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

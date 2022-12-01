@@ -1,4 +1,4 @@
-package dev.hnatiuk.uno_score.presentation.pages.base
+package dev.hnatiuk.uno_score.presentation.pages.base.twoactiondialog
 
 import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData

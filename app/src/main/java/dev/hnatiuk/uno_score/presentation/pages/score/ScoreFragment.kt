@@ -1,10 +1,8 @@
 package dev.hnatiuk.uno_score.presentation.pages.score
 
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.github.terrakok.cicerone.androidx.FragmentScreen
@@ -14,16 +12,16 @@ import dev.hnatiuk.core.presentation.base.view.BaseFragment
 import dev.hnatiuk.core.presentation.binding.bind
 import dev.hnatiuk.core.presentation.binding.bindVisibility
 import dev.hnatiuk.core.presentation.extensions.addDivider
-import dev.hnatiuk.core.presentation.extensions.doOnEditorAction
 import dev.hnatiuk.core.presentation.extensions.makeScrollable
 import dev.hnatiuk.core.presentation.recyclerview.AsyncListDiffDelegationAdapter
 import dev.hnatiuk.core.presentation.utils.SimplePopupMenu.Companion.showPopupMenu
-import dev.hnatiuk.core.presentation.utils.hideKeyboard
 import dev.hnatiuk.uno_score.R
 import dev.hnatiuk.uno_score.databinding.FragmentScoreBinding
-import dev.hnatiuk.uno_score.presentation.pages.editscore.EditFinalScoreDialog
-import dev.hnatiuk.uno_score.presentation.recyclerview.adapter.playerAdapterDelegate
-import dev.hnatiuk.uno_score.presentation.recyclerview.items.PlayerItem
+import dev.hnatiuk.uno_score.presentation.pages.base.inputdialog.InputDialog.Companion.setFragmentSingleResultListener
+import dev.hnatiuk.uno_score.presentation.pages.score.ScoreViewModel.Companion.ADD_NEW_PLAYER_REQUEST_KEY
+import dev.hnatiuk.uno_score.presentation.pages.score.ScoreViewModel.Companion.NEW_FINAL_SCORE_REQUEST_KEY
+import dev.hnatiuk.uno_score.presentation.recyclerview.adapter.gamePlayerAdapterDelegate
+import dev.hnatiuk.uno_score.presentation.recyclerview.items.GamePlayerItem
 
 @AndroidEntryPoint
 class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEvent>() {
@@ -34,7 +32,7 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
 
     private val playersAdapter by lazy {
         AsyncListDiffDelegationAdapter(
-            playerAdapterDelegate(::showPlayerActions)
+            gamePlayerAdapterDelegate(::showPlayerActions)
         )
     }
 
@@ -46,8 +44,6 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
     }
 
     override fun ScoreViewModel.observeViewModel() {
-        binding.newPlayerName.bind(viewLifecycleOwner, newPlayerName, viewModel::onNewPlayerNameChanged)
-        binding.newPlayerScore.bind(viewLifecycleOwner, newPlayerScore)
         binding.playersEmpty.bindVisibility(viewLifecycleOwner, isPlayersEmptyVisible)
         finalScore.observe(viewLifecycleOwner) { binding.finalScore.value = it.toString() }
         playersAdapter.bind(viewLifecycleOwner, playerItems)
@@ -59,7 +55,7 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
             binding.activeGameGroup.isVisible = losers.isEmpty()
             binding.endedGameGroup.isVisible = losers.isNotEmpty()
             if (losers.isNotEmpty()) {
-                binding.loser.text = losers.joinToString(", ") { it.name }
+                binding.loser.text = losers.joinToString(", ") { it.player.name }
                 binding.loserScore.text = losers.first().score.toString()
             }
         }
@@ -72,39 +68,28 @@ class ScoreFragment : BaseFragment<FragmentScoreBinding, ScoreViewModel, ScoreEv
 
     private fun setupClickListeners() = with(binding) {
         finalScore.setOnClickListener { viewModel.onChangeFinalScoreClick() }
-        listOf(newPlayerName, newPlayerScore).forEach {
-            it.doOnEditorAction(EditorInfo.IME_ACTION_DONE) {
-                requireContext().hideKeyboard(it)
-                viewModel.onAddPlayerClick()
-            }
-        }
-        addPlayer.setOnClickListener {
-            viewModel.onAddPlayerClick()
-            newPlayerName.requestFocus()
-        }
+        addPlayer.setOnClickListener { viewModel.onAddPlayerClick() }
         calculate.setOnClickListener { viewModel.onCalculateClick() }
         reset.setOnClickListener { viewModel.onResetClick() }
         finish.setOnClickListener { viewModel.onFinishClick() }
         settings.setOnClickListener { showSettingsMenu(it) }
+        playersList.setOnClickListener { viewModel.onPlayerListClick() }
     }
 
     private fun setupFragmentResultListeners() {
-        setFragmentResultListener(EditFinalScoreDialog.NEW_SCORE_REQUEST_KEY) { _, bundle ->
-            val newScore = bundle.getInt(EditFinalScoreDialog.NEW_SCORE_ARG)
-            viewModel.onFinalScoreSelected(newScore)
+        setFragmentSingleResultListener(ADD_NEW_PLAYER_REQUEST_KEY, viewModel::addPlayer)
+        setFragmentSingleResultListener(NEW_FINAL_SCORE_REQUEST_KEY) {
+            viewModel.onFinalScoreSelected(
+                it.toIntOrNull() ?: return@setFragmentSingleResultListener
+            )
         }
     }
 
     private fun showSettingsMenu(view: View) {
-        view.showPopupMenu(R.menu.menu_settings) {
-            when (it.itemId) {
-                R.id.reset -> viewModel.onResetClick()
-                R.id.clear -> viewModel.onClearClick()
-            }
-        }
+        view.showPopupMenu(R.menu.menu_settings, viewModel::handleSettingsMenu)
     }
 
-    private fun showPlayerActions(view: View, item: PlayerItem.Player) {
+    private fun showPlayerActions(view: View, item: GamePlayerItem.Player) {
         view.showPopupMenu(R.menu.menu_item_player_actions) {
             when (it.itemId) {
                 R.id.delete -> viewModel.onPlayerDelete(item)

@@ -9,9 +9,9 @@ import dev.hnatiuk.core.presentation.base.viewmodel.BaseViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.Event
 import dev.hnatiuk.core.presentation.navigation.ApplicationRouter
 import dev.hnatiuk.uno_score.BuildConfig
-import dev.hnatiuk.uno_score.R
+import dev.hnatiuk.uno_score.R.color
 import dev.hnatiuk.uno_score.domain.entity.Score
-import dev.hnatiuk.uno_score.presentation.pages.editscore.EditFinalScoreDialog
+import dev.hnatiuk.uno_score.presentation.navigation.showSetFinalScoreInputDialog
 import dev.hnatiuk.uno_score.presentation.pages.score.ScoreFragment
 import dev.hnatiuk.uno_score.presentation.recyclerview.items.FinalScoreSuggestionItem
 import kotlinx.coroutines.launch
@@ -35,7 +35,7 @@ class StartViewModel @Inject constructor(
     }
 
     fun onCustomFinalScoreSelected() {
-        applicationRouter.showDialog(EditFinalScoreDialog.screen(isEditMode = false))
+        applicationRouter.showSetFinalScoreInputDialog(CUSTOM_FINAL_SCORE_REQUEST_KEY)
     }
 
     override fun onViewLoaded() {
@@ -51,23 +51,27 @@ class StartViewModel @Inject constructor(
     }
 
     private fun getFinalScoreSuggestions(): List<Score> {
-        return listOf(
-            Score(100),
-            Score(200),
-            Score(300),
-            Score(400),
-            Score(500)
-        )
+        return IntProgression
+            .fromClosedRange(MIN_SCORE_RANGE_START, MAX_SCORE_RANGE_START, step = SCORE_RANGE_STEP)
+            .map { Score(it) }
     }
 
     private fun composeFinalScoreSuggestion(suggestions: List<Score>): List<FinalScoreSuggestionItem> {
-        val scoreColors =
-            listOf(R.color.uno_red, R.color.uno_yellow, R.color.uno_blue, R.color.uno_green)
+        val scoreColors = listOf(color.uno_red, color.uno_yellow, color.uno_blue, color.uno_green)
         return suggestions
             .take(scoreColors.size)
             .sortedByDescending { score -> score.value }
             .zip(scoreColors)
             .map { FinalScoreSuggestionItem.ScoreItem(it.first, it.second) }
             .plus(FinalScoreSuggestionItem.CustomItem)
+    }
+
+    companion object {
+
+        const val CUSTOM_FINAL_SCORE_REQUEST_KEY = "CUSTOM_FINAL_SCORE_REQUEST_KEY"
+
+        private const val MIN_SCORE_RANGE_START = 100
+        private const val MAX_SCORE_RANGE_START = 500
+        private const val SCORE_RANGE_STEP = 100
     }
 }

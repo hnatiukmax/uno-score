@@ -85,4 +85,11 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0-alpha01")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0-alpha01")
+
+    val roomVersion = "2.4.3"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }

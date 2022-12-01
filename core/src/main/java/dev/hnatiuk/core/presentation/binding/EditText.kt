@@ -19,8 +19,8 @@ fun EditText.bind(
     }
 
     value.observe(lifecycleOwner) {
-        if (it != null && text.toString() != it) {
-            setText(it)
+        if (text.toString() != it) {
+            setText(it.orEmpty())
         }
     }
 

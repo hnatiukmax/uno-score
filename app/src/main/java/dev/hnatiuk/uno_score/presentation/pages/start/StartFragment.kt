@@ -1,6 +1,5 @@
 package dev.hnatiuk.uno_score.presentation.pages.start
 
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +14,7 @@ import dev.hnatiuk.core.presentation.recyclerview.layoutmanager.SpannableGridLay
 import dev.hnatiuk.core.presentation.recyclerview.layoutmanager.SpannableGridLayoutManager.SpanInfo
 import dev.hnatiuk.uno_score.databinding.FragmentStartBinding
 import dev.hnatiuk.uno_score.domain.entity.Score
-import dev.hnatiuk.uno_score.presentation.pages.editscore.EditFinalScoreDialog
+import dev.hnatiuk.uno_score.presentation.pages.base.inputdialog.InputDialog.Companion.setFragmentSingleResultListener
 import dev.hnatiuk.uno_score.presentation.recyclerview.adapter.customLabelScoreSuggestionAdapterDelegate
 import dev.hnatiuk.uno_score.presentation.recyclerview.adapter.finalScoreSuggestionItemAdapterDelegate
 
@@ -62,9 +61,9 @@ class StartFragment : BaseFragment<FragmentStartBinding, StartViewModel, StartEv
     }
 
     private fun setupFragmentResultListeners() {
-        setFragmentResultListener(EditFinalScoreDialog.NEW_SCORE_REQUEST_KEY) { _, bundle ->
-            val newScore = bundle.getInt(EditFinalScoreDialog.NEW_SCORE_ARG)
-            viewModel.onFinalScoreSelected(Score(newScore))
+        setFragmentSingleResultListener(StartViewModel.CUSTOM_FINAL_SCORE_REQUEST_KEY) { value ->
+            val score = value.toIntOrNull() ?: return@setFragmentSingleResultListener
+            viewModel.onFinalScoreSelected(Score(score))
         }
     }
 

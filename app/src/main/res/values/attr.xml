@@ -16,6 +16,7 @@
     <attr name="titledValue" format="reference" />
 
     <attr name="finalScoreValue" format="reference" />
+    <attr name="loseCount" format="reference" />
 
     <attr name="playerNumber" format="reference" />
     <attr name="playerName" format="reference" />

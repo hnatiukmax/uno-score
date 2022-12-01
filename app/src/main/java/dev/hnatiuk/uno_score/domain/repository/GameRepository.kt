@@ -1,23 +1,29 @@
 package dev.hnatiuk.uno_score.domain.repository
 
+import dev.hnatiuk.uno_score.domain.controller.GameRoundResult
+import dev.hnatiuk.uno_score.domain.entity.Player
 import dev.hnatiuk.uno_score.domain.entity.UnoGame
 import kotlinx.coroutines.flow.Flow
 
 interface GameRepository {
 
-    suspend fun createGame(finalScore: Int, players: List<String> = emptyList()): Int
+    fun getGameFlow(gameId: Int): Flow<UnoGame>
 
-    suspend fun setFinalScore(gameId: Int, score: Int)
+    suspend fun setGameResult(loserPlayerId: Int)
 
-    suspend fun addPlayer(gameId: Int, name: String, startScore: Int? = null)
+    suspend fun getGame(gameId: Int): UnoGame?
 
-    suspend fun removePlayer(gameId: Int, playerId: Int)
+    suspend fun createGame(finalScore: Int): Int
 
-    suspend fun setRoundResult(gameId: Int, result: Map<Int, Int>)
+    suspend fun setFinalScore(gameId: Int, newFinalScore: Int)
 
-    suspend fun getLastGameId(): Int?
+    suspend fun setRoundResult(gameId: Int, roundResult: GameRoundResult)
 
-    suspend fun clearGames()
+    suspend fun addPlayers(gameId: Int, vararg newPlayers: Player)
 
-    fun getGameFlow(id: Int): Flow<UnoGame>
+    suspend fun removePlayers(gameId: Int, vararg ids: Int)
+
+//    suspend fun resetGame(gameId: Int)
+//
+//    suspend fun clearGame()
 }

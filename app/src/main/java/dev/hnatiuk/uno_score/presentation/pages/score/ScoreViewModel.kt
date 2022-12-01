@@ -1,21 +1,27 @@
 package dev.hnatiuk.uno_score.presentation.pages.score
 
-import androidx.lifecycle.*
+import android.view.MenuItem
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.BaseViewModel
 import dev.hnatiuk.core.presentation.base.viewmodel.Event
-import dev.hnatiuk.core.presentation.extensions.replace
+import dev.hnatiuk.core.presentation.extensions.getOrException
 import dev.hnatiuk.core.presentation.navigation.ApplicationRouter
 import dev.hnatiuk.uno_score.R
-import dev.hnatiuk.uno_score.domain.entity.Player
+import dev.hnatiuk.uno_score.domain.entity.GameParticipant
 import dev.hnatiuk.uno_score.domain.entity.UnoGame
-import dev.hnatiuk.uno_score.domain.repository.GameRepository
-import dev.hnatiuk.uno_score.presentation.pages.editscore.EditFinalScoreDialog
+import dev.hnatiuk.uno_score.presentation.GameInteractor
+import dev.hnatiuk.uno_score.presentation.navigation.showAddNewPlayerInputDialog
+import dev.hnatiuk.uno_score.presentation.navigation.showSetFinalScoreInputDialog
+import dev.hnatiuk.uno_score.presentation.pages.players.PlayersFragment
 import dev.hnatiuk.uno_score.presentation.pages.roundresult.RoundResultDialog
-import dev.hnatiuk.uno_score.presentation.recyclerview.items.PlayerItem
-import dev.hnatiuk.uno_score.presentation.recyclerview.mappers.PlayerItemMapper
+import dev.hnatiuk.uno_score.presentation.pages.selectplayers.SelectPlayersDialog
+import dev.hnatiuk.uno_score.presentation.recyclerview.items.GamePlayerItem
+import dev.hnatiuk.uno_score.presentation.recyclerview.mappers.PlayerItemMapper.mapPlayersToPlayerItems
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,65 +31,44 @@ sealed class ScoreEvent : Event
 class ScoreViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val applicationRouter: ApplicationRouter,
-    private val gameRepository: GameRepository
+    private val gameInteractor: GameInteractor
 ) : BaseViewModel<ScoreEvent>() {
 
-    private val scoreArg = savedStateHandle.get<Int>(SCORE_ARG)
-        ?: throw IllegalArgumentException("No score argument")
+    private val scoreArg = savedStateHandle.getOrException<Int>(SCORE_ARG)
 
     private var currentGameFlowJob: Job? = null
+    private val game get() = _game.getOrException()
+
     private val _game = MutableLiveData<UnoGame>()
-    private val game get() = _game.value ?: throw IllegalArgumentException("No created game")
 
-    val playerItems: LiveData<List<PlayerItem>> =
-        _game.map { PlayerItemMapper.mapPlayersToPlayerItems(it.finalScore, it.players) }
+    val playerItems = _game.map { mapPlayersToPlayerItems(it.finalScore, it.players) }
     val isPlayersEmptyVisible = _game.map { it.players.isEmpty() }
-    val finalScore: LiveData<Int> = _game.map { it.finalScore }
-    val round: LiveData<Int> = _game.map { it.round }
-    val losers: LiveData<List<Player>> = _game.map { findLosers(it.finalScore, it.players) }
-
-    val newPlayerName = MutableLiveData(NEW_PLAYER_NAME_DEFAULT)
-    val newPlayerScore = MutableLiveData(NEW_PLAYER_SCORE_DEFAULT)
+    val finalScore = _game.map { it.finalScore }
+    val round = _game.map { it.round }
+    val losers = _game.map { findLosers(it.finalScore, it.players) }
 
     override fun onViewLoaded() {
-        loadGame()
-    }
-
-    fun onPlayerDelete(item: PlayerItem.Player) {
         viewModelScope.launch {
-            gameRepository.removePlayer(game.id, item.id)
+            gameInteractor.startGame(scoreArg)
+            subscribeOnGame()
         }
     }
 
-    fun onNewPlayerNameChanged(value: String) {
-        newPlayerName.value = value
-        newPlayerScore.replace { score ->
-            when {
-                value.isNotBlank() && score.isNullOrBlank() -> NEW_PLAYER_SCORE_ZERO
-                value.isBlank() && score.isNullOrBlank()
-                    .not() && score == NEW_PLAYER_SCORE_ZERO -> NEW_PLAYER_SCORE_DEFAULT
-                else -> score
-            }
+    fun onPlayerDelete(item: GamePlayerItem.Player) {
+        viewModelScope.launch {
+            gameInteractor.removePlayers(item.id)
         }
-    }
-
-    fun onChangeFinalScoreClick() {
-        val score = _game.value?.finalScore ?: return
-        applicationRouter.showDialog(EditFinalScoreDialog.screen(isEditMode = true, game.id, score))
     }
 
     fun onFinalScoreSelected(score: Int) {
         viewModelScope.launch {
-            gameRepository.setFinalScore(game.id, score)
+            gameInteractor.setFinalScore(score)
         }
     }
 
-    fun onAddPlayerClick() {
-        val score = newPlayerScore.replace { NEW_PLAYER_SCORE_DEFAULT }?.toIntOrNull() ?: return
-        val name = newPlayerName.replace { NEW_PLAYER_NAME_DEFAULT }?.takeUnless { it.isBlank() } ?: return
-
+    fun addPlayer(playerName: String) {
         viewModelScope.launch {
-            gameRepository.addPlayer(game.id, name, score)
+            gameInteractor.addNewPlayer(playerName)
         }
     }
 
@@ -95,48 +80,52 @@ class ScoreViewModel @Inject constructor(
         }
     }
 
+    fun handleSettingsMenu(item: MenuItem) {
+        when (item.itemId) {
+            R.id.reset -> onResetClick()
+            R.id.clear -> onClearClick()
+            R.id.players -> applicationRouter.navigateTo(PlayersFragment.screen())
+        }
+    }
+
     fun onResetClick() {
-        val currentPlayers = game.players.map { it.name }
-        currentGameFlowJob?.cancel()
-        startNewGame(currentPlayers)
+        viewModelScope.launch {
+            gameInteractor.resetGame()
+            subscribeOnGame()
+        }
     }
 
     fun onClearClick() {
-        currentGameFlowJob?.cancel()
-        startNewGame()
+
+    }
+
+    /* Navigation */
+
+    fun onChangeFinalScoreClick() {
+        applicationRouter.showSetFinalScoreInputDialog(NEW_FINAL_SCORE_REQUEST_KEY, game.finalScore)
+    }
+
+    fun onAddPlayerClick() {
+        applicationRouter.showAddNewPlayerInputDialog(ADD_NEW_PLAYER_REQUEST_KEY)
+    }
+
+    fun onPlayerListClick() {
+        applicationRouter.showDialog(SelectPlayersDialog.screen(game.id))
     }
 
     fun onFinishClick() {
         applicationRouter.exit()
     }
 
-    private fun loadGame() {
-        viewModelScope.launch {
-            gameRepository.getLastGameId()
-                ?.let(::subscribeOnGame)
-                ?: startNewGame()
-        }
-    }
+    /* Navigation end */
 
-    private fun startNewGame(startPlayers: List<String> = emptyList()) {
-        viewModelScope.launch {
-            gameRepository.clearGames()
-            val id = gameRepository.createGame(scoreArg, startPlayers)
-            subscribeOnGame(id)
-        }
-    }
-
-    private fun subscribeOnGame(gameId: Int) {
+    private fun subscribeOnGame() {
         currentGameFlowJob = viewModelScope.launch {
-            gameRepository.getGameFlow(gameId)
-                .distinctUntilChanged()
-                .collect { result ->
-                    _game.value = result
-                }
+            gameInteractor.getGameFlow().collect(_game::setValue)
         }
     }
 
-    private fun findLosers(finalScore: Int, items: List<Player>): List<Player> {
+    private fun findLosers(finalScore: Int, items: List<GameParticipant>): List<GameParticipant> {
         return items.filter { player -> player.score >= finalScore }
     }
 
@@ -144,8 +133,7 @@ class ScoreViewModel @Inject constructor(
 
         const val SCORE_ARG = "SCORE_ARG"
 
-        private const val NEW_PLAYER_SCORE_ZERO = "0"
-        private const val NEW_PLAYER_NAME_DEFAULT = ""
-        private const val NEW_PLAYER_SCORE_DEFAULT = ""
+        const val ADD_NEW_PLAYER_REQUEST_KEY = "ADD_NEW_PLAYER_REQUEST_KEY"
+        const val NEW_FINAL_SCORE_REQUEST_KEY = "NEW_FINAL_SCORE_REQUEST_KEY"
     }
 }
